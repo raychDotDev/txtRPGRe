@@ -1,36 +1,28 @@
 #include "Game.hpp"
-#include "Logger.hpp"
-#include "SDL2/SDL_events.h"
-#include "SDL2/SDL_render.h"
-#include "SDL2/SDL_timer.h"
-#include "SDL2/SDL_video.h"
 #include <SDL2/SDL.h>
-#include <chrono>
-#include <iostream>
-#include <sstream>
 #include <string>
 
 Game::Game(std::string title, int width, int height) {
   SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
   window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                             SDL_WINDOWPOS_CENTERED, width, height,
-                            SDL_WINDOW_RESIZABLE );
-  renderer = SDL_CreateRenderer(
-      window, -1,  SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC );
-
-  log = Logger();
-
+                            SDL_WINDOW_RESIZABLE);
   SDL_SetWindowTitle(window, title.c_str());
+  renderer =
+      SDL_CreateRenderer(window, -1,
+                         SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE |
+                             SDL_RENDERER_PRESENTVSYNC);
+	view = nullptr;
+  fps = 0;
+  targetFps = 60;
   running = true;
   frameTimer = SDL_GetTicks();
-  SetTargetFps(60);
   ter = new Terminal(renderer, 80, 24);
 }
 
 Game::~Game() {
-  delete ter;
-  SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
   SDL_Quit();
 }
 
@@ -65,7 +57,7 @@ void Game::Update(float dt) {
 }
 
 void Game::Draw() {
-	ter->Clear();
+  ter->Clear();
   if (this->view != nullptr) {
     this->view->Draw(this, ter);
   }

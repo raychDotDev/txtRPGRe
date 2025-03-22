@@ -1,5 +1,4 @@
 #pragma once
-#include "Logger.hpp"
 #include "Terminal.hpp"
 #include "View.hpp"
 #include <string>
@@ -17,15 +16,14 @@ class Game {
 		void SetView(View*view);
 	private:
 		Terminal *ter;
-		Logger log;
 		View *view;
 		Uint32 frameTimer;
-		float fps = 0;
+		float fps;
 		bool running;
 		void Update(float dt);
 		void Draw();
 		SDL_Window *window;
 		SDL_Renderer *renderer;
 		SDL_Event updateEvent;
-		Uint32 targetFps = 60;
+		Uint32 targetFps;
 };

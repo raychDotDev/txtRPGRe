@@ -6,9 +6,10 @@ INC_DIR=include
 SRC_DIR=src
 OBJ_DIR=obj
 ASSET_DIR=assets
-
-CFLAGS=-std=c++17 -Wall -static-libgcc -static-libstdc++ -pthread 
-LDFLAGS=-I$(INC_DIR) -L$(LIB_DIR) -lSDL2 -lSDL2_image -lopengl32 -lgdi32 -lwinmm
+# add to compile_commands if lsp goes crazy
+# -target x86_64-mingw64 
+CFLAGS=-std=c++17 -Wall -static-libgcc -static-libstdc++ -pthread -g -O0
+LDFLAGS=-I$(INC_DIR) -I$(INC_DIR)/data -L$(LIB_DIR) -lSDL2 -lSDL2_image -lopengl32 -lgdi32 -lwinmm
 
 TARGET=game.exe
 

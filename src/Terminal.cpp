@@ -57,7 +57,6 @@ void Terminal::Clear() {
 
 Terminal::~Terminal() {
   SDL_DestroyTexture(canvas);
-  delete font;
 }
 
 void Terminal::SetDefaultFGColor(SDL_Color value) {

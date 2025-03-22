@@ -17,8 +17,4 @@ void ViewMain::Update(void *context, SDL_Event event, float dt) {}
 
 void ViewMain::Draw(void *context, Terminal *terminal) {
 	Game* con = (Game*)context;
-  std::wstring text = L"[f255,0,0,][b0,255,0,]";
-	text.append(std::to_wstring(con->GetFps()));
-	text.append(L"[fd][bd]bebra");
-  terminal->Print(0, 0, text);
 }
