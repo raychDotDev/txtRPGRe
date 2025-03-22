@@ -7,7 +7,7 @@ SRC_DIR=src
 OBJ_DIR=obj
 ASSET_DIR=assets
 
-CFLAGS=-std=c++17 -Wall -Wextra -static-libgcc -static-libstdc++ -pthread
+CFLAGS=-std=c++17 -Wall -Wextra -static-libgcc -static-libstdc++ -pthread -O2
 LDFLAGS=-I$(INC_DIR) -L$(LIB_DIR) -lSDL2 -lSDL2_image -lopengl32 -lgdi32 -lwinmm 
 
 TARGET=game.exe

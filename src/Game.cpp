@@ -15,7 +15,7 @@ Game::Game(std::string title, int width, int height) {
                             SDL_WINDOWPOS_CENTERED, width, height,
                             SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
   renderer = SDL_CreateRenderer(
-      window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+      window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC);
   log = Logger();
   SDL_SetWindowTitle(window, title.c_str());
   running = true;
@@ -57,15 +57,15 @@ void Game::Update(float dt) {
     Stop();
   }
   if (this->view != nullptr) {
-    this->view->Update(updateEvent, dt);
+    this->view->Update(this, updateEvent, dt);
   }
 }
 
 void Game::Draw() {
+  if (this->view != nullptr) {
+    this->view->Draw(this, ter);
+  }
   ter->Display(renderer);
-  // if (this->view != nullptr) {
-  //   this->view->Draw(renderer);
-  // }
 }
 
 Uint32 Game::GetFps() { return fps; }
@@ -76,11 +76,11 @@ void Game::Stop() { running = false; }
 
 void Game::SetView(View *view) {
   if (this->view != nullptr) {
-    this->view->Unload(renderer);
+    this->view->Unload(this);
   }
   this->view = nullptr;
   this->view = view;
   if (this->view != nullptr) {
-    this->view->Load(renderer);
+    this->view->Load(this);
   }
 }

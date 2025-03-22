@@ -7,23 +7,12 @@
 ViewMain::ViewMain() {}
 ViewMain::~ViewMain() {}
 
-void ViewMain::Load(SDL_Renderer *context) {
-  image = IMG_LoadTexture(context, "assets/font.png");
-  canvas = SDL_CreateTexture(context, SDL_PIXELFORMAT_RGBA8888,
-                             SDL_TEXTUREACCESS_TARGET, 256, 256);
-}
+void ViewMain::Load(void *context) {}
 
-void ViewMain::Unload(SDL_Renderer *context) { 
-	SDL_DestroyTexture(image); 
-	SDL_DestroyTexture(canvas);
-}
+void ViewMain::Unload(void *context) {}
 
-void ViewMain::Update(SDL_Event event, float dt) {}
+void ViewMain::Update(void *context, SDL_Event event, float dt) {}
 
-void ViewMain::Draw(SDL_Renderer *context) {
-	SDL_SetRenderTarget(context, canvas);
-  SDL_RenderCopy(context, image, NULL, NULL);
-	SDL_SetRenderTarget(context, NULL);
-	auto dest = (SDL_Rect){0,0,400,400};
-	SDL_RenderCopy(context, canvas, NULL, &dest);
+void ViewMain::Draw(void *context, Terminal *terminal) {
+  terminal->Print(0, 0, L"ё\x6001пта))\x6002\x25A0");
 }

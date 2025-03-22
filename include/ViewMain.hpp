@@ -5,13 +5,11 @@
 
 class ViewMain : public View {
 private:
-  SDL_Texture *image;
-	SDL_Texture *canvas;
 public:
   ViewMain();
   ~ViewMain();
-	void Load(SDL_Renderer * context) override;
-	void Unload(SDL_Renderer * context) override;
-  void Update(SDL_Event event, float dt) override;
-  void Draw(SDL_Renderer *context) override;
+	void Load(void *context) override;
+	void Unload(void *context) override;
+  void Update(void*context,SDL_Event event, float dt) override;
+  void Draw(void*context,Terminal *terminal) override;
 };
