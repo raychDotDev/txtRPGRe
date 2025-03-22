@@ -18,24 +18,6 @@ Terminal::Terminal(SDL_Renderer *context, int width, int height) {
                                 (SDL_Color){0, 0, 0, 255}});
 }
 
-void Terminal::SetGlyph(int x, int y, TerminalGlyph g) {
-  auto glyph = &buffer[y * width + x];
-  glyph->character = g.character;
-  glyph->fg = g.fg;
-  glyph->bg = g.bg;
-}
-
-void Terminal::Print(int x, int y, std::wstring text) {
-  if (y >= height || y < 0 || x >= width || x + (int)text.size() < 0)
-    return;
-
-  for (int i = 0; i < (int)text.size(); i++) {
-    auto glyph =
-        (TerminalGlyph){(int)text[i], {255, 255, 255, 255}, {0, 0, 0, 255}};
-    SetGlyph(x + i, y, glyph);
-  }
-}
-
 void Terminal::Display(SDL_Renderer *context) {
   int tileWidth = font->GetTileWidth(), tileHeight = font->GetTileHeight();
   SDL_SetRenderTarget(context, canvas);
@@ -67,7 +49,22 @@ void Terminal::Display(SDL_Renderer *context) {
   SDL_RenderCopy(context, canvas, NULL, NULL);
 }
 
+void Terminal::Clear() {
+  for (int i = 0; i < width * height; i++) {
+    buffer[i] = {0x0000, defaultBackgroundColor, defaultBackgroundColor};
+  }
+}
+
 Terminal::~Terminal() {
   SDL_DestroyTexture(canvas);
   delete font;
+}
+
+void Terminal::SetDefaultFGColor(SDL_Color value) {
+  this->defaultForegroundColor = value;
+}
+
+void Terminal::SetDefaultBGColor(SDL_Color value) {
+
+  this->defaultBackgroundColor = value;
 }

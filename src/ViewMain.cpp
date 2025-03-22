@@ -3,6 +3,8 @@
 #include "SDL2/SDL_render.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <string>
+#include "Game.hpp"
 
 ViewMain::ViewMain() {}
 ViewMain::~ViewMain() {}
@@ -14,5 +16,9 @@ void ViewMain::Unload(void *context) {}
 void ViewMain::Update(void *context, SDL_Event event, float dt) {}
 
 void ViewMain::Draw(void *context, Terminal *terminal) {
-  terminal->Print(0, 0, L"ё\x6001пта))\x6002\x25A0");
+	Game* con = (Game*)context;
+  std::wstring text = L"[f255,0,0,][b0,255,0,]";
+	text.append(std::to_wstring(con->GetFps()));
+	text.append(L"[fd][bd]bebra");
+  terminal->Print(0, 0, text);
 }
