@@ -1,5 +1,6 @@
 #pragma once
 #include "Logger.hpp"
+#include "Terminal.hpp"
 #include "View.hpp"
 #include <string>
 #include <SDL2/SDL.h>
@@ -15,6 +16,7 @@ class Game {
 		Uint32 GetFps();
 		void SetView(View*view);
 	private:
+		Terminal *ter;
 		Logger log;
 		View *view;
 		Uint32 frameTimer;

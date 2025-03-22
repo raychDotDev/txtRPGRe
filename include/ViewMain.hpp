@@ -6,7 +6,7 @@
 class ViewMain : public View {
 private:
   SDL_Texture *image;
-
+	SDL_Texture *canvas;
 public:
   ViewMain();
   ~ViewMain();

@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "Logger.hpp"
 #include "SDL2/SDL_events.h"
+#include "SDL2/SDL_render.h"
 #include "SDL2/SDL_timer.h"
 #include <SDL2/SDL.h>
 #include <chrono>
@@ -10,16 +11,21 @@
 
 Game::Game(std::string title, int width, int height) {
   SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
-  SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_RESIZABLE, &window,
-                              &renderer);
+  window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
+                            SDL_WINDOWPOS_CENTERED, width, height,
+                            SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+  renderer = SDL_CreateRenderer(
+      window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
   log = Logger();
   SDL_SetWindowTitle(window, title.c_str());
   running = true;
   frameTimer = SDL_GetTicks();
   SetTargetFps(60);
+  ter = new Terminal(renderer, 80, 24);
 }
 
 Game::~Game() {
+  delete ter;
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
@@ -56,9 +62,10 @@ void Game::Update(float dt) {
 }
 
 void Game::Draw() {
-  if (this->view != nullptr) {
-    this->view->Draw(renderer);
-  }
+  ter->Display(renderer);
+  // if (this->view != nullptr) {
+  //   this->view->Draw(renderer);
+  // }
 }
 
 Uint32 Game::GetFps() { return fps; }
